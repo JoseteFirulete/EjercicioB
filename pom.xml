@@ -3,4 +3,11 @@
   <groupId>org.iesvdm</groupId>
   <artifactId>IVA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.iesvdm</groupId>
+  		<artifactId>ejemplos_unit4</artifactId>
+  		<version>1.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

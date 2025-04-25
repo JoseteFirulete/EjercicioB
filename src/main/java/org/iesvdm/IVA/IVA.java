@@ -24,32 +24,90 @@ import java.util.Scanner;
 
 public class IVA {
 
-	public static double baseimponible() {
+	public static void main() throws Exception {
+		
+		double baseImponible = baseimponible();
+		double ivaFinal = tipoIVA(baseImponible);
+		double precioFinal = precioConIva(baseImponible, ivaFinal);
+		double codigoPromocional = calcularDescuento(precioFinal);
+		
+		double descuento = calcularDescuento(precioFinal);
+		double total = precioFinal - descuento;
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Base imponible: " + baseImponible);
+		System.out.println("IVA aplicado: " + ivaFinal);
+		System.out.println("Precio con IVA: " + precioFinal);
+		System.out.println("Código promocional (" + codigoPromocional + "): -" + descuento);
+		System.out.println("TOTAL: " + total);
+
+	}
+
+	public static double baseimponible() throws Exception {
 		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Introduzca la base imponible: ");
 		Double baseImponible = scanner.nextDouble();
 		
+		if (baseImponible < 0) {
+			throw new Exception("Esta base Imponible esta mal no puede ser negativo");
+		} 
+		
 		return baseImponible;
 	}
 	
-	public static double tipoIVA () {
+	public static double tipoIVA (double baseImponible) {
 		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("¿Que tipo de IVA eliges? (general, reducido o superreducido): ");
-		String tipoIVA = scanner.nextLine();
+		String tipoIva = scanner.nextLine();
 		
 		double porcentajeIVA = 0.0; 
 		
-		if (tipoIVA == "general") {
+		if (tipoIva == "general") {
 			porcentajeIVA = 2.10;
-		} else if (tipoIVA == "reducido") {
+		} else if (tipoIva == "reducido") {
 			porcentajeIVA = 1.00;
-		} else if (tipoIVA == "general") {
+		} else if (tipoIva == "general") {
 			porcentajeIVA = 0.40;
+		} else {
+			System.out.println("Ninguno de estos tipo de IVA es valido");
 		}
 		
-		return 0;
+		double ivaFinal = (baseImponible*porcentajeIVA);
+		
+		return ivaFinal;
 	}
+	
+	public static double precioConIva(double baseImponible, double ivaFinal) throws Exception {
+		
+		double precioFinal = (baseImponible * ivaFinal);
+		
+		return precioFinal;
+	}
+	
+	public static double calcularDescuento(double precioFinal) throws Exception {
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Introduzca el código promocional (nopro, mitad, meno5 o 5porc): ");
+		String codigoPromocional = scanner.nextLine();
+		
+		double descuento = 0.0;
+
+		if (codigoPromocional == "nopro") {
+			descuento = 0.0;
+		} else if (codigoPromocional == "mitad") {
+			descuento = precioFinal / 2.0;
+		} else if (codigoPromocional == "meno5") {
+			descuento = 5.0;
+		} else if (codigoPromocional == "5porc") {
+			descuento = precioFinal * 0.05;
+		} else {
+			throw new Exception ("Codigo promocional no valido");
+		}
+
+		return descuento;
+	}
+	
 	
 }
